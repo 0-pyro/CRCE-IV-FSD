@@ -113,12 +113,6 @@ aside {
     color: var(--xp-text-dark);
 }
 
-text-decoration: none;
-cursor: pointer;
-border-left: 3px solid transparent;
-transition: all 0.2s ease;
-font-size: 12px;
-}
 
 .sidebar-link:hover {
     background-color: var(--xp-blue-light);

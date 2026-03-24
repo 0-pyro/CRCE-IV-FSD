@@ -1,6 +1,7 @@
 {
   "name": "fsd3",
   "private": true,
+  "homepage": "https://0-pyro.github.io/CRCE-IV-FSD/fsd3/pages/HomePage.jsx",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
