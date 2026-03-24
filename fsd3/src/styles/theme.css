@@ -1,0 +1,200 @@
+/* Windows XP Luna Blue Theme */
+
+:root {
+    /* Windows XP Luna Blue Colors */
+    --xp-blue-light: #e6f2ff;
+    --xp-blue-medium: #d9e8fb;
+    --xp-blue-dark: #99b4d1;
+    --xp-blue-accent: #316ac5;
+    --xp-blue-border: #7da2ce;
+
+    /* Background Colors */
+    --xp-bg-light: #f0f4ff;
+    --xp-bg-medium: #e6f2ff;
+    --xp-bg-white: #ffffff;
+
+    /* Text Colors */
+    --xp-text-dark: #000000;
+    --xp-text-medium: #333333;
+    --xp-text-light: #666666;
+
+    /* Accent Colors */
+    --xp-accent-orange: #ff9933;
+    --xp-accent-yellow: #ffff99;
+    --xp-accent-green: #99cc00;
+
+    /* Shadows & Effects */
+    --xp-shadow-light: inset 1px 1px 0 rgba(255, 255, 255, 0.7);
+    --xp-shadow-dark: inset -1px -1px 0 rgba(0, 0, 0, 0.3);
+    --xp-border-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    --xp-glow: 0 0 8px rgba(49, 106, 197, 0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Tahoma, Arial, sans-serif;
+    background-color: var(--xp-bg-light);
+    color: var(--xp-text-dark);
+    line-height: 1.6;
+}
+
+/* Windows XP Luna Blue Button Style */
+.btn-2000s {
+    background: linear-gradient(135deg, var(--xp-bg-white) 0%, var(--xp-blue-light) 100%);
+    border: 1px solid var(--xp-blue-border);
+    border-radius: 3px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: normal;
+    color: var(--xp-text-dark);
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 11px;
+    box-shadow: var(--xp-shadow-light), var(--xp-shadow-dark);
+    transition: all 0.2s ease;
+}
+
+.btn-2000s:hover {
+    background: linear-gradient(135deg, var(--xp-blue-light) 0%, var(--xp-blue-medium) 100%);
+    border-color: var(--xp-blue-accent);
+    box-shadow: var(--xp-shadow-light), var(--xp-shadow-dark), var(--xp-glow);
+}
+
+.btn-2000s:active {
+    background: linear-gradient(135deg, var(--xp-blue-medium) 0%, var(--xp-blue-dark) 100%);
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Primary Action Button - Windows XP Style */
+.btn-primary {
+    background: linear-gradient(135deg, var(--xp-accent-yellow) 0%, var(--xp-accent-orange) 100%);
+    border: 1px solid var(--xp-blue-border);
+    color: var(--xp-text-dark);
+    font-weight: normal;
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 11px;
+    box-shadow: var(--xp-shadow-light), var(--xp-shadow-dark);
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #ffffcc 0%, var(--xp-accent-yellow) 100%);
+    box-shadow: var(--xp-shadow-light), var(--xp-shadow-dark), 0 0 6px rgba(255, 204, 0, 0.4);
+}
+
+/* Input Fields - Windows XP Style */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+select,
+textarea {
+    background-color: var(--xp-bg-white);
+    border: 1px solid var(--xp-blue-border);
+    padding: 4px 6px;
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 11px;
+    border-radius: 2px;
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+    color: var(--xp-text-dark);
+}
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder,
+input[type="number"]::placeholder,
+textarea::placeholder {
+    color: #777;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--xp-blue-accent);
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1), 0 0 6px rgba(49, 106, 197, 0.3);
+}
+
+/* Box Container - Windows XP Style */
+.box-2000s {
+    background-color: var(--xp-bg-white);
+    border: 1px solid var(--xp-blue-border);
+    border-radius: 4px;
+    padding: 12px;
+    box-shadow: var(--xp-border-shadow);
+}
+
+.box-2000s-title {
+    background: linear-gradient(90deg, var(--xp-blue-accent) 0%, var(--xp-blue-dark) 100%);
+    color: var(--xp-bg-white);
+    padding: 6px 8px;
+    font-weight: bold;
+    border-radius: 2px 2px 0 0;
+    margin: -12px -12px 8px -12px;
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 11px;
+}
+
+/* Badge - NEW / HOT */
+.badge-new {
+    background: linear-gradient(135deg, #ff6666 0%, #cc3333 100%);
+    color: var(--xp-bg-white);
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-weight: normal;
+    font-size: 10px;
+    display: inline-block;
+    box-shadow: var(--xp-border-shadow);
+    font-family: Tahoma, Arial, sans-serif;
+}
+
+.badge-hot {
+    background: linear-gradient(135deg, var(--xp-accent-orange) 0%, #ff9933 100%);
+    color: var(--xp-bg-white);
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-weight: normal;
+    font-size: 10px;
+    display: inline-block;
+    box-shadow: var(--xp-border-shadow);
+    font-family: Tahoma, Arial, sans-serif;
+}
+
+/* Price Display */
+.price-tag {
+    background: linear-gradient(135deg, var(--xp-accent-yellow) 0%, #ffffcc 100%);
+    color: var(--xp-text-dark);
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-weight: normal;
+    border: 1px solid var(--xp-blue-border);
+    box-shadow: var(--xp-border-shadow);
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 11px;
+}
+
+/* Starburst Effect - Windows XP Style */
+.starburst {
+    position: relative;
+    background: linear-gradient(135deg, var(--xp-accent-yellow) 0%, var(--xp-accent-orange) 100%);
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid var(--xp-blue-border);
+    text-align: center;
+    font-weight: normal;
+    color: var(--xp-text-dark);
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 11px;
+    box-shadow: var(--xp-border-shadow);
+}
