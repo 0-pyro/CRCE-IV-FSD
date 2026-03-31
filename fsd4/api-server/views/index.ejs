@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Name Joke Generator</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .joke-box {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Joke Generator</h1>
+        <p>Enter your name to get a personalized joke!</p>
+
+        <form action="/get-joke" method="POST">
+            <input type="text" name="name" placeholder="Enter your name" required>
+            <button type="submit">Get Joke</button>
+        </form>
+
+        <% if (name && joke) { %>
+            <div class="joke-box">
+                <h3>Okay, <%= name %>, here is your joke:</h3>
+
+                <% if (joke.type==='single' ) { %>
+                    <p><em>
+                            <%= joke.joke %>
+                        </em></p>
+                    <% } else { %>
+                        <p><strong>
+                                <%= joke.setup %>
+                            </strong></p>
+                        <p><em>
+                                <%= joke.delivery %>
+                            </em></p>
+                        <% } %>
+
+                            <a href="/">Try Another?</a>
+            </div>
+            <% } %>
+
+                <% if (error) { %>
+                    <p style="color: red;">
+                        <%= error %>
+                    </p>
+                    <% } %>
+    </div>
+
+</body>
+
+</html>
