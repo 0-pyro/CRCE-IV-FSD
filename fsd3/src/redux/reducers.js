@@ -5,8 +5,6 @@ const initialProductsState = {
         { id: 1, name: 'Wireless Mouse', price: 29.99, category: 'Electronics', image: '/src/assets/react.svg', rating: 4.5 },
         { id: 2, name: 'USB Cable', price: 9.99, category: 'Electronics', image: '/src/assets/vite.svg', rating: 4.0 },
         { id: 3, name: 'Keyboard', price: 79.99, category: 'Electronics', image: '/src/assets/react.svg', rating: 4.8 },
-
-        // Electronics - New Products
         { id: 6, name: 'ASUS ProArt Display PA148CTC', price: 649.99, category: 'Electronics', image: '/src/assets/asus_pro_art.png', rating: 4.7, description: 'Portable 14-inch professional display' },
         { id: 7, name: 'ASUS ZenBook 14 Ultralight', price: 899.99, category: 'Electronics', image: '/src/assets/asus_zenbook_a14.png', rating: 4.8, description: 'Ultra-thin laptop with 14-inch display', specialOffer: true, discount: 0.20 },
         { id: 8, name: 'Logitech MX Master 3S', price: 99.99, category: 'Electronics', image: '/src/assets/react.svg', rating: 4.9, description: 'Advanced wireless mouse for professionals' },
@@ -102,25 +100,6 @@ export const cartReducer = (state = initialCartState, action) => {
     }
 };
 
-// User Reducer
-const initialUserState = {
-    isLoggedIn: false,
-    user: null,
-    email: '',
-};
-
-export const userReducer = (state = initialUserState, action) => {
-    switch (action.type) {
-        case 'LOGIN':
-            return { ...state, isLoggedIn: true, user: action.payload.name, email: action.payload.email };
-        case 'LOGOUT':
-            return { isLoggedIn: false, user: null, email: '' };
-        case 'UPDATE_PROFILE':
-            return { ...state, user: action.payload.name, email: action.payload.email };
-        default:
-            return state;
-    }
-};
 
 // Filters Reducer
 const initialFiltersState = {
@@ -145,24 +124,7 @@ export const filtersReducer = (state = initialFiltersState, action) => {
     }
 };
 
-// Orders Reducer
-const initialOrdersState = {
-    orders: [],
-};
 
-export const ordersReducer = (state = initialOrdersState, action) => {
-    switch (action.type) {
-        case 'ADD_ORDER':
-            return {
-                ...state,
-                orders: [...state.orders, { ...action.payload, id: Date.now(), date: new Date().toLocaleDateString() }],
-            };
-        case 'GET_ORDERS':
-            return state;
-        default:
-            return state;
-    }
-};
 
 // Shoutbox Reducer
 const persistedShouts = typeof window !== 'undefined' && localStorage.getItem('shouts')

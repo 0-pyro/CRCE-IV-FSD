@@ -86,7 +86,7 @@ export function HomePage({ filters }) {
 
             <div className="view-all-section">
                 <Link to="/products" className="btn-primary">
-                    👉 View All Products →
+                    View All Products
                 </Link>
             </div>
         </div>
