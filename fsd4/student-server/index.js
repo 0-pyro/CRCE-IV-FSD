@@ -17,7 +17,7 @@ app.get("/profile", (req, res) => {
     })
 })
 
-app.get('/', (req, res) => {
+app.get('/h', (req, res) => {
     res.send("Welcome to the Student Inforomation Portal")
 })
 
@@ -55,13 +55,6 @@ app.post("/submit-form", (req, res) => {
         `)
 })
 
-app.get("/profile", (req, res) => {
-    res.render("profile", {
-        name: "Arnav",
-        branch: "CE",
-        year: "SE"
-    })
-})
 
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`)
