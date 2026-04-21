@@ -1,11 +1,25 @@
+import { useEffect } from 'react'; // Added useEffect
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import axios from 'axios'; // Added axios
 import '../styles/pages.css';
 
 export function ProductsPage({ filters }) {
     const dispatch = useDispatch();
     const products = useSelector(state => state.products.products);
     const filterState = useSelector(state => state.filters);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const res = await axios.get('http://localhost:5001/api/products');
+                dispatch({ type: 'SET_PRODUCTS', payload: res.data });
+            } catch (err) {
+                console.error("Error loading products:", err);
+            }
+        };
+        fetchProducts();
+    }, [dispatch]);
 
     const handleAddToCart = (product) => {
         dispatch({ type: 'ADD_TO_CART', payload: product });
@@ -16,7 +30,6 @@ export function ProductsPage({ filters }) {
         dispatch({ type: 'SET_SORT_BY', payload: event.target.value });
     };
 
-    // Apply filters
     let filteredProducts = products.filter(product => {
         const matchesPrice = product.price <= filterState.priceRange[1];
         const matchesCategory = filterState.selectedCategory === 'All' || product.category === filterState.selectedCategory;
@@ -25,7 +38,7 @@ export function ProductsPage({ filters }) {
         return matchesPrice && matchesCategory && matchesSearch;
     });
 
-    // Apply sort
+
     filteredProducts = [...filteredProducts];
     if (filterState.sortBy === 'name') {
         filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
@@ -60,7 +73,7 @@ export function ProductsPage({ filters }) {
             <div className="products-grid">
                 {filteredProducts.length > 0 ? (
                     filteredProducts.map((product) => (
-                        <div key={product.id} className="product-card">
+                        <div key={product._id || product.id} className="product-card">
                             <div className="product-image">
                                 <img src={product.image} alt={product.name} style={{ maxWidth: '100%', maxHeight: '100px', objectFit: 'contain' }} />
                             </div>

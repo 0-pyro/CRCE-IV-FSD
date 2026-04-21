@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; // Added useEffect
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Added axios
 import '../styles/layout.css';
 
 export function Sidebar({ onFilterChange, onCategoryChange }) {
@@ -9,12 +10,26 @@ export function Sidebar({ onFilterChange, onCategoryChange }) {
     const shouts = useSelector(state => state.shout?.shouts || []);
     const products = useSelector(state => state.products?.products || []);
     const specialOfferProducts = products.filter(p => p.specialOffer) || [];
+
     const [priceRange, setPriceRange] = useState(500);
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [shoutName, setShoutName] = useState('');
     const [shoutText, setShoutText] = useState('');
 
     const categories = ['All', 'Electronics', 'Office', 'Accessories', 'Furniture'];
+
+    // 1. SWAP: Fetch shouts from API on component mount
+    useEffect(() => {
+        const fetchShouts = async () => {
+            try {
+                const res = await axios.get('http://localhost:5001/api/shouts');
+                dispatch({ type: 'SET_SHOUTS', payload: res.data });
+            } catch (err) {
+                console.error("Error fetching shouts:", err);
+            }
+        };
+        fetchShouts();
+    }, [dispatch]);
 
     const handlePriceChange = (e) => {
         const value = parseInt(e.target.value);
@@ -26,6 +41,27 @@ export function Sidebar({ onFilterChange, onCategoryChange }) {
         setSelectedCategory(category);
         onCategoryChange(category);
         navigate('/products');
+    };
+
+    // 2. SWAP: Post new shout to API
+    const handleAddShout = async () => {
+        if (!shoutText.trim()) return;
+
+        const newShoutData = {
+            name: shoutName.trim() || 'Anonymous',
+            text: shoutText.trim()
+        };
+
+        try {
+            const res = await axios.post('http://localhost:5001/api/shouts', newShoutData);
+            // Update Redux with the object returned from MongoDB (which includes the _id)
+            dispatch({ type: 'ADD_SHOUT_SUCCESS', payload: res.data });
+            setShoutName('');
+            setShoutText('');
+        } catch (err) {
+            console.error("Error saving shout:", err);
+            alert("Could not post shout. Is the server running?");
+        }
     };
 
     return (
@@ -79,7 +115,9 @@ export function Sidebar({ onFilterChange, onCategoryChange }) {
                         <p>No shouts yet. Be the first!</p>
                     ) : (
                         shouts.map((shout) => (
-                            <p key={shout.id}><strong>{shout.name}:</strong> {shout.text}</p>
+                            <p key={shout._id || shout.id}>
+                                <strong>{shout.name}:</strong> {shout.text}
+                            </p>
                         ))
                     )}
                 </div>
@@ -101,12 +139,7 @@ export function Sidebar({ onFilterChange, onCategoryChange }) {
                     <button
                         className="btn-primary"
                         style={{ width: '100%', fontSize: '11px', padding: '6px' }}
-                        onClick={() => {
-                            if (!shoutText.trim()) return;
-                            dispatch({ type: 'ADD_SHOUT', payload: { name: shoutName.trim() || 'Anonymous', text: shoutText.trim() } });
-                            setShoutName('');
-                            setShoutText('');
-                        }}
+                        onClick={handleAddShout}
                     >
                         Add Shout
                     </button>

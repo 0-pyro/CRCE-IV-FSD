@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import '../styles/pages.css';
-
+import axios from 'axios';
 export function CheckoutPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -22,24 +22,22 @@ export function CheckoutPage() {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleCheckout = () => {
-        if (Object.values(formData).some(v => v === '')) {
-            alert('Please fill out all fields');
-            return;
+    const handleCheckout = async () => {
+        const orderData = {
+            items: cart.items,
+            total: cart.total,
+            customerName: "Arnav Patade"
+        };
+
+        try {
+            const res = await axios.post('http://localhost:5001/api/orders', orderData);
+            dispatch({ type: 'ADD_ORDER_SUCCESS', payload: res.data.order });
+            dispatch({ type: 'CLEAR_CART' });
+            alert("Order placed successfully!");
+        } catch (err) {
+            console.error("Order failed:", err.response?.data || err.message);
+            alert("Error saving order. Check console for details.");
         }
-
-        dispatch({
-            type: 'ADD_ORDER',
-            payload: {
-                items: cart.items,
-                total: cart.total,
-                customer: formData,
-            }
-        });
-
-        dispatch({ type: 'CLEAR_CART' });
-        alert('Order placed successfully!');
-        navigate('/');
     };
 
     const calculateTotal = () => {

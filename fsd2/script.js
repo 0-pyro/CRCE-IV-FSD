@@ -1,84 +1,66 @@
-let contacts = JSON.parse(localStorage.getItem('contacts')) || [];
-let editIndex = -1;
+const API_BASE = "http://localhost:5002/contacts"
+
 
 const nameInput = document.getElementById('name');
 const emailInput = document.getElementById('email');
 const phoneInput = document.getElementById('phone');
-const submitBtn = document.getElementById('submitBtn');
 const contactList = document.getElementById('contactList');
-const searchInput = document.getElementById('search');
 
-function saveContact() {
-    const name = nameInput.value.trim();
-    const email = emailInput.value.trim();
-    const phone = phoneInput.value.trim();
+async function saveContact() {
+    const name = nameInput.value.trim()
+    const email = emailInput.value.trim()
+    const phone = phoneInput.value.trim()
 
     if (!name || !email || !phone) {
-        alert("All fields are required");
-        return;
+        alert("All fields are required")
+        return
     }
 
-    const newContact = { name, email, phone };
+    try {
+        const response = await axios.post(API_BASE, { name, email, phone })
 
-    if (editIndex === -1) {
-        contacts.push(newContact);
-    } else {
-        contacts[editIndex] = newContact;
-        editIndex = -1;
-        submitBtn.innerText = "Add Contact";
+        console.log("Success:", response.data)
+        clearInputs()
+        renderContacts()
+    } catch (err) {
+        const errorMsg = err.response?.data?.error || "Server Error"
+
     }
-
-    updateStorage();
-    clearInputs();
     renderContacts();
 }
 
-function renderContacts() {
-    contactList.innerHTML = '';
-    const searchTerm = searchInput.value.toLowerCase();
+async function renderContacts() {
+    try {
+        const response = await axios.get(API_BASE)
+        const dbContacts = response.data // Axios puts data in .data
 
-    contacts.forEach((contact, index) => {
-        if (contact.name.toLowerCase().includes(searchTerm) || contact.email.toLowerCase().includes(searchTerm)) {
-            const div = document.createElement('div');
-            div.className = 'contact-item';
+        contactList.innerHTML = ''
+        dbContacts.forEach((contact) => {
+            const div = document.createElement('div')
+            div.className = 'contact-item'
             div.innerHTML = `
                 <strong>${contact.name}</strong><br>
                 Email: ${contact.email}<br>
                 Phone: ${contact.phone}
                 <div class="actions">
-                    <button class="edit-btn" onclick="editContact(${index})">Edit</button>
-                    <button class="delete-btn" onclick="deleteContact(${index})">Delete</button>
+                    <button class="delete-btn" onclick="deleteContact('${contact._id}')">Delete</button>
                 </div>
-            `;
-            contactList.appendChild(div);
-        }
-    });
+            `
+            contactList.appendChild(div)
+        })
+    } catch (err) {
+        console.error("Error fetching data:", err)
+    }
 }
 
-function deleteContact(index) {
-    contacts.splice(index, 1);
-    updateStorage();
-    renderContacts();
+async function deleteContact(id) {
+
+    try {
+        await axios.delete(`${API_BASE}/${id}`)
+        renderContacts()
+    } catch (err) {
+        alert("Delete failed: " + err.message)
+    }
 }
 
-function editContact(index) {
-    const contact = contacts[index];
-    nameInput.value = contact.name;
-    emailInput.value = contact.email;
-    phoneInput.value = contact.phone;
-
-    editIndex = index;
-    submitBtn.innerText = "Update Contact";
-}
-
-function updateStorage() {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-}
-
-function clearInputs() {
-    nameInput.value = '';
-    emailInput.value = '';
-    phoneInput.value = '';
-}
-
-renderContacts();
+renderContacts()
